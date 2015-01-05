@@ -1,0 +1,9 @@
+10.88.60.22
+local0 联通版日志
+local2 电信版日志
+local1 错误日志
+local3 移动版日志
+local4 移动WAP版日志
+local5 百度接口
+local6 交委版日志
+local7 交委大屏日志

@@ -1,0 +1,48 @@
+原内容：
+listen  xxt-data-unicom-MASTER
+        #bind 10.88.60.40:80,:1885,:1895,:1883,:1893,:197,:198,:195,:196,:1886,:1896
+        bind 10.88.60.50:80
+        option httplog
+        #option dontlognull
+        #option dontlog-normal
+        log 10.88.2.113 local1 debug
+        mode http
+        balance roundrobin
+        #option  httpclose
+        cookie DYNSRV insert indirect nocache
+        option httpchk GET /ITSServiceCenterGZ/BusService.svc
+        #server cdi-app-1 10.88.60.31:80 cookie s1 maxconn 200 check inter 3000 rise 3
+        server cdi-app-2 10.88.60.32:80 cookie s2 maxconn 200 check inter 10000 rise 3
+        server cdi-app-3 10.88.60.33:80 cookie s3 maxconn 200 check inter 10000 rise 3
+        server cdi-app-4 10.88.60.34:80 cookie s4 maxconn 200 check inter 10000 rise 3
+	server cdi-app-5 10.88.60.35:80 cookie s5 maxconn 200 check inter 10000 rise 3
+	server cdi-app-6 10.88.60.36:80 cookie s6 maxconn 200 check inter 10000 rise 3
+	server cdi-app-7 10.88.60.37:80 cookie s7 maxconn 200 check inter 10000 rise 3
+	server cdi-app-8 10.88.60.38:80 cookie s8 maxconn 200 check inter 10000 rise 3
+
+修改内容：
+frontend xxt-data-unicom-MASTER
+      bind 10.88.60.50:80
+      mode http
+      option httplog
+      #option httpclose
+      #option dontlognull
+      #option dontlog-normal 
+      log 10.88.2.113 local1 debug
+      acl accept-ip src 172.16.33.70    
+      use_backend gzyyjt-data-backend if accept-ip
+      default_backend xxt-data-unicom-backend
+
+backend xxt-data-unicom-backend
+      mode http
+      balance roundrobin
+      cookie DYNSRV insert indirect nocache
+      option httpchk GET /ITSServiceCenterGZ/BusService.svc
+      #server cdi-app-1 10.88.60.31:80 cookie s1 maxconn 200 check inter 3000 rise 3
+        server cdi-app-2 10.88.60.32:80 cookie s2 maxconn 200 check inter 10000 rise 3
+        server cdi-app-3 10.88.60.33:80 cookie s3 maxconn 200 check inter 10000 rise 3
+        server cdi-app-4 10.88.60.34:80 cookie s4 maxconn 200 check inter 10000 rise 3
+	server cdi-app-5 10.88.60.35:80 cookie s5 maxconn 200 check inter 10000 rise 3
+	server cdi-app-6 10.88.60.36:80 cookie s6 maxconn 200 check inter 10000 rise 3
+	server cdi-app-7 10.88.60.37:80 cookie s7 maxconn 200 check inter 10000 rise 3
+	server cdi-app-8 10.88.60.38:80 cookie s8 maxconn 200 check inter 10000 rise 3

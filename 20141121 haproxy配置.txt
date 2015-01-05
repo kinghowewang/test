@@ -1,0 +1,35 @@
+全局变量：
+global
+    log 127.0.0.1 local 0          ##所有日志记录在本机，输出在local 0
+    #log 127.0.0.1 local1  notice
+    #log 127.0.0.1 local0  info    ##日志的输出配置
+    ulimit-n 82000                 ##设置每进程可用的最大文字描述符
+    maxconn 4096                   ##设置最大连接数
+    chroot /usr/local/haproxy      ##改变当前工作目录
+    uid=99                         ##运行用户的uid
+    gid=99                         ##运行用户的gid
+    profile /usr/local/haproxy/run/haproxy.pid 
+    daemon
+    debug
+    #quiet
+    nbproc 3
+
+defaults
+    log global
+    log 127.0.0.1 local3
+    mode http
+    option httplog      ##定义日志类别为httplog 
+    option httpclose    ##每一次请求完毕后自动关闭
+    option redispatch   ##serverid对应的服务器挂掉后，强制定向给健康的服务器
+    option dontlongnull ##不记录健康检查日志
+    option forwardfor   ##后端服务器需要获得客户端的真实ip需要配置的信息，可以从http heade中获得客户端ip
+    option abortonclose ##当服务器负载很高时 自动结束当前队列处比较久的连接
+    stats refresh 30    ##刷新时间间隔
+    retries 3           ##3次连接失败就认为服务不可用
+    balance roundrobin  ##默认的负载均衡的方式：轮询方式
+    #balance source     ##默认的负载均衡的方式
+    #balance leastconn  ##默认的负载均衡的方式
+    contimeout 50000    ##连接超时
+    clitimeout 50000    ##客户端超时
+    srvtimeot  50000    ##服务器超时
+    timeout check 2000  ##心跳检测超时
